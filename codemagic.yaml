@@ -9,7 +9,3 @@ workflows:
       - flutter build ipa --release
     artifacts:
       - build/ios/ipa/*.ipa
-    publishing:
-      app_store_connect:
-        api_key: $APP_STORE_CONNECT_KEY
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
