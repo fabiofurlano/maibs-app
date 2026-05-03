@@ -7,11 +7,23 @@ import 'screens/agents_screen.dart';
 import 'services/agui_client.dart';
 import 'services/audio_player.dart';
 
+String _detectServerHost() {
+  // On web, use the page URL's hostname so iPhone connects to ThinkPad,
+  // not its own localhost.
+  try {
+    final uri = Uri.base;
+    if (uri.host.isNotEmpty && uri.host != 'localhost') {
+      return uri.host;
+    }
+  } catch (_) {}
+  return 'localhost';
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = await SharedPreferences.getInstance();
-  final server = prefs.getString('server') ?? 'localhost';
+  final server = prefs.getString('server') ?? _detectServerHost();
   final port = prefs.getInt('port') ?? 8432;
 
   runApp(MAIBSApp(
